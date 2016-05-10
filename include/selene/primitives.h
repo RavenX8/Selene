@@ -22,27 +22,74 @@ namespace detail {
 
 template <typename T>
 struct is_primitive {
+# if _MSC_VER <= 1800
+  is_primitive() {
+    value = false;
+  }
+  static bool value;
+#else
     static constexpr bool value = false;
+#endif
 };
 template <>
 struct is_primitive<int> {
+# if _MSC_VER <= 1800
+  is_primitive()
+  {
+    value = true;
+  }
+  static bool value;
+#else
     static constexpr bool value = true;
+#endif
 };
 template <>
 struct is_primitive<unsigned int> {
+# if _MSC_VER <= 1800
+  is_primitive()
+  {
+    value = true;
+  }
+  static bool value;
+#else
     static constexpr bool value = true;
+#endif
 };
 template <>
 struct is_primitive<bool> {
+# if _MSC_VER <= 1800
+  is_primitive()
+  {
+    value = true;
+  }
+  static bool value;
+#else
     static constexpr bool value = true;
+#endif
 };
 template <>
 struct is_primitive<lua_Number> {
+# if _MSC_VER <= 1800
+  is_primitive()
+  {
+    value = true;
+  }
+  static bool value;
+#else
     static constexpr bool value = true;
+#endif
 };
 template <>
 struct is_primitive<std::string> {
-    static constexpr bool value = true;
+# if _MSC_VER <= 1800
+  is_primitive()
+  {
+    value = true;
+  }
+  static bool value;
+#else
+  static constexpr bool value = true;
+#endif
 };
 
 template<typename T>

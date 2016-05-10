@@ -18,7 +18,12 @@ public:
     explicit TypeError(std::string expected, std::string const & actual)
       : _message(std::move(expected)
                  + " expected, got " + actual + '.') {}
+
+# if _MSC_VER <= 1800
+    char const * what() const override {
+#else
     char const * what() const noexcept override {
+#endif
         return _message.c_str();
     }
 };
@@ -32,7 +37,12 @@ public:
     {
         return _type;
     }
+
+# if _MSC_VER <= 1800
+    char const * what() const override {
+#else
     char const * what() const noexcept override {
+#endif
         return "Tried to copy an object of an unregistered type. "
                "Please register classes before passing instances by value.";
     }

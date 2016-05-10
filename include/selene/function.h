@@ -117,7 +117,14 @@ namespace detail {
 
 template<typename T>
 struct is_primitive<sel::function<T>> {
+# if _MSC_VER <= 1800
+  is_primitive() {
+    value = true;
+  }
+  static bool value;
+# else
     static constexpr bool value = true;
+#endif
 };
 
 template <typename R, typename...Args>

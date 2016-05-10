@@ -95,7 +95,14 @@ namespace detail {
 
 template<typename T>
 struct is_primitive<sel::Reference<T>> {
+# if _MSC_VER <= 1800
+  is_primitive() {
+    value = true;
+  }
+  static bool value;
+#else
     static constexpr bool value = true;
+#endif
 };
 
 template <typename T>
@@ -124,7 +131,14 @@ inline void _push(lua_State *l, sel::Reference<T> const & ref) {
 
 template<typename T>
 struct is_primitive<sel::Pointer<T>> {
-    static constexpr bool value = true;
+# if _MSC_VER <= 1800
+  is_primitive() {
+    value = true;
+  }
+  static bool value;
+# else
+  static constexpr bool value = true;
+#endif
 };
 
 template <typename T>

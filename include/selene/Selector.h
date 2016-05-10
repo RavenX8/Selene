@@ -156,11 +156,18 @@ private:
 public:
 
     Selector(const Selector &) = default;
-    Selector(Selector &&) = default;
+# if _MSC_VER <= 1800
+# else
+    Selector(Selector &&) = default; // move constructor
+    Selector & operator=(Selector &&) = default; // move constructor
+#endif
     Selector & operator=(const Selector &) = default;
-    Selector & operator=(Selector &&) = default;
 
+# if _MSC_VER <= 1800
+    ~Selector() {
+#else
     ~Selector() noexcept(false) {
+#endif
         // If there is a functor is not empty, execute it and collect no args
         if (_functor_active) {
             ResetStackOnScopeExit save(_state);

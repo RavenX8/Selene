@@ -150,7 +150,10 @@ public:
     ~Class() = default;
     Class(const Class &) = delete;
     Class& operator=(const Class &) = delete;
+# if _MSC_VER <= 1800
+# else
     Class(Class &&other) = default;
     Class& operator=(Class &&other) = default;
+#endif
 };
 }

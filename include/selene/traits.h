@@ -10,17 +10,38 @@ namespace detail {
 
 template <typename T>
 struct _arity {
-    static constexpr int value = 1;
+# if _MSC_VER <= 1800
+  _arity() {
+    value = 1;
+  }
+  static int value;
+#else
+  static constexpr int value = 1;
+#endif
 };
 
 template <typename... Vs>
 struct _arity<std::tuple<Vs...>> {
-    static constexpr int value = sizeof...(Vs);
+# if _MSC_VER <= 1800
+  _arity() {
+    value = sizeof...(Vs);
+  }
+  static int value;
+#else
+  static constexpr int value = sizeof...(Vs);
+#endif
 };
 
 template <>
 struct _arity<void> {
-    static constexpr int value = 0;
+# if _MSC_VER <= 1800
+  _arity<void>(){
+    value = 0;
+  }
+  static int value;
+#else
+  static constexpr int value = 0;
+#endif
 };
 
 template <std::size_t... Is>

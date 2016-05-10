@@ -11,13 +11,19 @@ public:
     MovingFlag(MovingFlag const &) = default;
 
     MovingFlag & operator=(MovingFlag const &) = default;
-
+# if _MSC_VER <= 1800
+    MovingFlag(MovingFlag && that)
+#else
     MovingFlag(MovingFlag && that) noexcept
+#endif
         : flag(that.flag) {
         that = false;
     }
-
+# if _MSC_VER <= 1800
+    MovingFlag & operator=(MovingFlag && that) {
+#else
     MovingFlag & operator=(MovingFlag && that) noexcept {
+#endif
         this->flag = that.flag;
         that = false;
         return *this;
